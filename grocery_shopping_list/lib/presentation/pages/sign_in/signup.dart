@@ -13,6 +13,8 @@ class _SignupState extends State<Signup> {
   final formKey = GlobalKey<FormState>();
 
   bool isVisible = true;
+  bool isAdmin = false;
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -95,6 +97,37 @@ class _SignupState extends State<Signup> {
                           ? Icons.visibility
                           : Icons.visibility_off)))),
                 ),
+
+
+                Container(
+                  margin: const EdgeInsets.all(10),
+                  // padding: const EdgeInsets.symmetric(
+                  //     horizontal: 15.0, vertical: 10),
+                  height: 25,
+                  // width: 100,
+                  child:
+                      Expanded(child: 
+                        ListTile(
+                          title: const Text('Do you want to be an Admin?'),
+                              leading: Switch(
+                                value: isAdmin,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isAdmin = !isAdmin;
+                                  });
+                                }, 
+                                activeTrackColor: Colors.lightGreenAccent,
+                                activeColor: Colors.green,
+                                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap, 
+                              )
+                            ),
+                        )
+                ),
+               
+                
+                Container(
+                  height: 30
+                  ),
                 
                 const SizedBox(height: 10),
                 Container(
