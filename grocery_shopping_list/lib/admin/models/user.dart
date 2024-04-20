@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class User{
+class User {
   final String username;
   final String location;
   final List items;
