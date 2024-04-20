@@ -122,6 +122,8 @@ class _UserShopPageState extends State<UserShopPage> {
     }
   }
 
+  int _currentIndex = 0;
+
   @override
   @override
   Widget build(BuildContext context) {
@@ -153,116 +155,119 @@ class _UserShopPageState extends State<UserShopPage> {
       body: Container(
         margin: EdgeInsets.all(10),
         padding: EdgeInsets.all(20),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Card(
-                  child: Container(
-                    padding: EdgeInsets.all(30),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Abebe\'s Shop',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
+        child: ListView(children: [
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Card(
+                    child: Container(
+                      padding: EdgeInsets.all(30),
+                      child: Column(
+                        children: [
+                          Text(
+                            'Abebe\'s Shop',
+                            style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
-                        ),
-                        SizedBox(height: 10),
-                        Text('A shop to find all in one'),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            _showMultiSelect();
-                          },
-                          child: Text(
-                            "View Shop",
-                            style: TextStyle(color: Colors.white),
+                          SizedBox(height: 10),
+                          Text('A shop to find all in one'),
+                          SizedBox(
+                            height: 20,
                           ),
-                          style: TextButton.styleFrom(
-                              backgroundColor: Colors.purple[800],
-                              elevation: 5),
-                        )
-                      ],
+                          TextButton(
+                            onPressed: () {
+                              _showMultiSelect();
+                            },
+                            child: Text(
+                              "View Shop",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            style: TextButton.styleFrom(
+                                backgroundColor: Colors.purple[800],
+                                elevation: 5),
+                          )
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            Divider(
-              thickness: 5.0,
-              color: Colors.purple,
-            ),
-            Card(
-              child: Container(
-                padding: EdgeInsets.all(30),
-                child: Column(
-                  children: [
-                    Text(
-                      'Shemsu\'s Shop',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
+                ],
+              ),
+              Divider(
+                thickness: 5.0,
+                color: Colors.purple,
+              ),
+              Card(
+                child: Container(
+                  padding: EdgeInsets.all(30),
+                  child: Column(
+                    children: [
+                      Text(
+                        'Shemsu\'s Shop',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                    ),
-                    SizedBox(height: 10),
-                    Text('A shop to find all in one'),
-                    SizedBox(
-                      height: 20,
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        _showMultiSelect();
-                      },
-                      child: Text(
-                        "View Shop",
-                        style: TextStyle(color: Colors.white),
+                      SizedBox(height: 10),
+                      Text('A shop to find all in one'),
+                      SizedBox(
+                        height: 20,
                       ),
-                      style: TextButton.styleFrom(
-                          backgroundColor: Colors.purple[800], elevation: 5),
-                    )
-                  ],
+                      TextButton(
+                        onPressed: () {
+                          _showMultiSelect();
+                        },
+                        child: Text(
+                          "View Shop",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        style: TextButton.styleFrom(
+                            backgroundColor: Colors.purple[800], elevation: 5),
+                      )
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
+        ]),
       ),
       bottomNavigationBar: BottomNavigationBar(
+        currentIndex: _currentIndex,
+        onTap: (index) {
+          setState(() {
+            _currentIndex = index;
+          });
+        },
         items: [
           BottomNavigationBarItem(
             icon: IconButton(
-              icon: Icon(Icons.home),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (BuildContext context) => UserShopPage(),
-                  ),
-                );
-              },
-            ),
+                icon: Icon(Icons.home),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/shop');
+                },
+                style: IconButton.styleFrom(
+                  foregroundColor:
+                      _currentIndex == 0 ? Colors.purple : Colors.grey,
+                )),
             label: 'Shops',
             backgroundColor: Colors.grey,
           ),
           BottomNavigationBarItem(
             icon: IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (BuildContext context) => SellectedItemsPage(
-                              selectedItems: checkedItems,
-                              title: titleController.text,
-                            )));
-              },
-            ),
+                icon: Icon(Icons.list),
+                onPressed: () {
+                  Navigator.pushNamed(context, '/list');
+                },
+                style: IconButton.styleFrom(
+                  foregroundColor:
+                      _currentIndex == 1 ? Colors.purple : Colors.grey,
+                )),
             label: 'List Page',
             backgroundColor: Colors.purple,
           ),

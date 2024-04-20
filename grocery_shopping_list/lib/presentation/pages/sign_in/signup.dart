@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../login/login.dart';
+import '../../../main.dart';
 
 class Signup extends StatefulWidget {
   const Signup({super.key});
@@ -26,7 +27,7 @@ class _SignupState extends State<Signup> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('../assets/picture.png', width: 210),
+                // Image.asset('../assets/picture.png', width: 210),
                 const ListTile(
                     title: Text("Create new account",
                         style: TextStyle(
@@ -124,7 +125,7 @@ class _SignupState extends State<Signup> {
                   ),
                   child: TextButton(
                       onPressed: () {
-                        ///////////
+                        Navigator.pushNamed(context, '/login');
                       },
                       child: const Text("SIGNUP",
                           style: TextStyle(color: Colors.white))),
@@ -135,10 +136,7 @@ class _SignupState extends State<Signup> {
                     const Text("Allready have an account?"),
                     TextButton(
                       onPressed: () {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const LoginScreen()));
+                        Navigator.pushNamed(context, '/login');
                       },
                       child: const Text('LOGIN'),
                     )
