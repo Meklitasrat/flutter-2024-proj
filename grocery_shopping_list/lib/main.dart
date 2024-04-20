@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:grocery_shopping_list/admin/user_dialog.dart';
 import 'package:grocery_shopping_list/presentation/pages/sign_in/signup.dart';
+import './users/user_shop_page.dart';
+import './users/selectedItems.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,8 +14,6 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Signup()
-    );
+    return MaterialApp(home: UserShopPage());
   }
 }

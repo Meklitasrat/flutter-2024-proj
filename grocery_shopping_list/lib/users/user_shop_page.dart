@@ -1,9 +1,6 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:grocery_shopping_list/admin/user_dialog.dart';
 
 import 'selectedItems.dart';
 
@@ -17,19 +14,16 @@ class UserShopPage extends StatefulWidget {
 class MultiSelect extends StatefulWidget {
   final List<String> items;
   final TextEditingController titleController;
-  MultiSelect({Key? key, required this.items,required this.titleController}) : super(key: key);
+  MultiSelect({Key? key, required this.items, required this.titleController})
+      : super(key: key);
 
   @override
   State<MultiSelect> createState() => _MultiSelectState();
-  
 }
 
 class _MultiSelectState extends State<MultiSelect> {
   final List<String> selectedItems = [];
   String title = '';
-    
-  
-  
 
   void _itemsChange(String itemValue, bool isSelected) {
     setState(() {
@@ -48,53 +42,48 @@ class _MultiSelectState extends State<MultiSelect> {
   void _submit() {
     Navigator.pop(context, selectedItems);
   }
-    Future<void> selectDate(BuildContext context) async {
-  final DateTime? pickedDate = await showDatePicker(
-    context: context,
-    initialDate: DateTime.now(),
-    firstDate: DateTime.now(),
-    lastDate: DateTime(2100),
-  );
 
-  if (pickedDate != null) {
-    setState(() {
-      // dateTime.text = DateFormat('yyyy-MM-dd').format(pickedDate);
-    });
+  Future<void> selectDate(BuildContext context) async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime.now(),
+      lastDate: DateTime(2100),
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        // dateTime.text = DateFormat('yyyy-MM-dd').format(pickedDate);
+      });
+    }
   }
-}
+
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('Abebe\'s Shop List'),
       content: SingleChildScrollView(
-        child:Column(children: [ 
+          child: Column(
+        children: [
           TextField(
-            // controller:dateTime,
-           
-            controller: widget.titleController,
+              // controller:dateTime,
+
+              controller: widget.titleController,
               decoration: InputDecoration(
                 labelText: "Enter a title",
-
-            )
-
-
+              )),
+          ListBody(
+            children: widget.items
+                .map((item) => CheckboxListTile(
+                      title: Text(item),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      value: selectedItems.contains(item),
+                      onChanged: (isChecked) => _itemsChange(item, isChecked!),
+                    ))
+                .toList(),
           ),
-            ListBody(
-
-          children: 
-          widget.items
-              .map((item) => CheckboxListTile(
-                    title: Text(item),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    value: selectedItems.contains(item),
-                    onChanged: (isChecked) => _itemsChange(item, isChecked!),
-                  ))
-              .toList(),
-        ),
-
-        ],)
-       
-      ),
+        ],
+      )),
       actions: [
         TextButton(onPressed: _cancel, child: Text('Cancel')),
         TextButton(onPressed: _submit, child: Text('Add to cart')),
@@ -104,10 +93,9 @@ class _MultiSelectState extends State<MultiSelect> {
 }
 
 class _UserShopPageState extends State<UserShopPage> {
-    _MultiSelectState _multiSelectState = _MultiSelectState();
+  _MultiSelectState _multiSelectState = _MultiSelectState();
   List<String> checkedItems = [];
-TextEditingController titleController = TextEditingController();
-  
+  TextEditingController titleController = TextEditingController();
 
   void _showMultiSelect() async {
     final List<String> items = [
@@ -119,13 +107,13 @@ TextEditingController titleController = TextEditingController();
       'Potatoes'
     ];
 
-   final List<String>? results = await showDialog<List<String>>(
-  context: context,
-  builder: (BuildContext context) {
-    TextEditingController titleController = TextEditingController();
-    return MultiSelect(items: items, titleController: titleController);
-  },
-);
+    final List<String>? results = await showDialog<List<String>>(
+      context: context,
+      builder: (BuildContext context) {
+        TextEditingController titleController = TextEditingController();
+        return MultiSelect(items: items, titleController: titleController);
+      },
+    );
 
     if (results != null) {
       setState(() {
@@ -133,10 +121,8 @@ TextEditingController titleController = TextEditingController();
       });
     }
   }
-    @override
 
- 
-
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -160,7 +146,6 @@ TextEditingController titleController = TextEditingController();
             SizedBox(
               width: 40,
             ),
-           
           ],
         ),
         backgroundColor: Color.fromARGB(255, 18, 34, 96),
@@ -171,7 +156,7 @@ TextEditingController titleController = TextEditingController();
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-          Row(
+            Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Card(
@@ -207,58 +192,82 @@ TextEditingController titleController = TextEditingController();
                     ),
                   ),
                 ),
-                Card(
-                  child: Container(
-                    padding: EdgeInsets.all(30),
-                    child: Column(
-                      children: [
-                        Text(
-                          'Abebe\'s Shop',
-                          style: TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Text('A shop to find all in one'),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        TextButton(
-                          onPressed: () {
-                            _showMultiSelect();
-                          },
-                          child: Text(
-                            "View Shop",
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          style: TextButton.styleFrom(
-                              backgroundColor: Colors.purple[800],
-                              elevation: 5),
-                        )
-                      ],
-                    ),
-                  ),
-                )
               ],
             ),
-    // Wrap(
-    //           children: checkedItems.map((item) => Chip(label: Text(item))).toList(),
-    //         ),
-            TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => SellectedItemsPage(selectedItems: checkedItems,title: titleController.text,)));
-                },
-                child: Text('List Page'))
+            Divider(
+              thickness: 5.0,
+              color: Colors.purple,
+            ),
+            Card(
+              child: Container(
+                padding: EdgeInsets.all(30),
+                child: Column(
+                  children: [
+                    Text(
+                      'Shemsu\'s Shop',
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Text('A shop to find all in one'),
+                    SizedBox(
+                      height: 20,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        _showMultiSelect();
+                      },
+                      child: Text(
+                        "View Shop",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      style: TextButton.styleFrom(
+                          backgroundColor: Colors.purple[800], elevation: 5),
+                    )
+                  ],
+                ),
+              ),
+            ),
           ],
         ),
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        items: [
+          BottomNavigationBarItem(
+            icon: IconButton(
+              icon: Icon(Icons.home),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (BuildContext context) => UserShopPage(),
+                  ),
+                );
+              },
+            ),
+            label: 'Shops',
+            backgroundColor: Colors.grey,
+          ),
+          BottomNavigationBarItem(
+            icon: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => SellectedItemsPage(
+                              selectedItems: checkedItems,
+                              title: titleController.text,
+                            )));
+              },
+            ),
+            label: 'List Page',
+            backgroundColor: Colors.purple,
+          ),
+        ],
       ),
     );
   }
 }
-
- 
-

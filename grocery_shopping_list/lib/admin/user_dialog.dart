@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/user.dart';
+import '../admin/models/user.dart';
+
 
 class AddUserDialog extends StatefulWidget {
   final Function(User) addUser;

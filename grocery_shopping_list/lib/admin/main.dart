@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/models/user.dart';
-import 'package:flutter_application_1/user_dialog.dart';
+import '../admin/models/user.dart';
+import '../admin/user_dialog.dart';
 
 void main() {
   runApp(MyApp());
