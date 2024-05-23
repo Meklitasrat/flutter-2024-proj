@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import '../admin/main.dart';
+// import '../../../admin/admin_page.dart';
 import 'addlist.dart';
 
 class SellectedItemsPage extends StatefulWidget {

@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import '../login/login.dart';
 import '../../../main.dart';
+import '../../../providers/authProvider.dart';
+import '../../../services/signup_service.dart';
 
-class Signup extends StatefulWidget {
-  const Signup({super.key});
+class Signup extends ConsumerStatefulWidget {
+  Signup({Key? key}) : super(key: key);
+  // Signup({super.key});
+  // final instance = Signup();
 
   @override
-  State<Signup> createState() => _SignupState();
+  _SignupState createState() => _SignupState();
 }
 
-class _SignupState extends State<Signup> {
+class _SignupState extends ConsumerState<Signup> {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
   final formKey = GlobalKey<FormState>();
 
-  bool isVisible = true;
-  bool isAdmin = false;
+  var isVisible = true;
+  var isAdmin = false;
 
   @override
   Widget build(BuildContext context) {
+    // final authState = watch(authProvider);
+    final ApiService _apiService = ApiService();
+    // isAdmin = ref.watch(_apiService);
     return Scaffold(
         body: Center(
       child: SingleChildScrollView(
@@ -40,11 +52,12 @@ class _SignupState extends State<Signup> {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.deepPurple.withOpacity(0.2)),
                   child: TextFormField(
-                      decoration: const InputDecoration(
-                    icon: Icon(Icons.person),
-                    border: InputBorder.none,
-                    hintText: "Username",
-                  )),
+                      controller: _usernameController,
+                      decoration: InputDecoration(
+                        icon: Icon(Icons.person),
+                        border: InputBorder.none,
+                        hintText: "Username",
+                      )),
                 ),
                 Container(
                   margin: const EdgeInsets.all(10),
@@ -54,6 +67,7 @@ class _SignupState extends State<Signup> {
                       borderRadius: BorderRadius.circular(8),
                       color: Colors.deepPurple.withOpacity(0.2)),
                   child: TextFormField(
+                      controller: _passwordController,
                       obscureText: isVisible,
                       decoration: InputDecoration(
                           icon: Icon(Icons.lock),
@@ -98,21 +112,26 @@ class _SignupState extends State<Signup> {
                     //     horizontal: 15.0, vertical: 10),
                     height: 25,
                     // width: 100,
-                    child: Expanded(
-                      child: ListTile(
-                          title: const Text('Do you want to be an Admin?'),
-                          leading: Switch(
-                            value: isAdmin,
-                            onChanged: (value) {
-                              setState(() {
-                                isAdmin = !isAdmin;
-                              });
-                            },
-                            activeTrackColor: Colors.lightGreenAccent,
-                            activeColor: Colors.green,
-                            materialTapTargetSize:
-                                MaterialTapTargetSize.shrinkWrap,
-                          )),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: ListTile(
+                              title: const Text('Do you want to be an Admin?'),
+                              leading: Switch(
+                                value: isAdmin,
+                                onChanged: (value) {
+                                  // AdminState.toggle
+                                  setState(() {
+                                    isAdmin = !isAdmin;
+                                  });
+                                },
+                                activeTrackColor: Colors.lightGreenAccent,
+                                activeColor: Colors.green,
+                                materialTapTargetSize:
+                                    MaterialTapTargetSize.shrinkWrap,
+                              )),
+                        ),
+                      ],
                     )),
                 Container(height: 30),
                 const SizedBox(height: 10),
@@ -125,7 +144,13 @@ class _SignupState extends State<Signup> {
                   ),
                   child: TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/login');
+                        // Navigator.pushNamed(context, '/login');
+                        final username = _usernameController.text;
+                        final password = _passwordController.text;
+                        const role = 'user';
+                        _apiService.signUp(username, password, role, context);
+
+                        // context.go('/login');
                       },
                       child: const Text("SIGNUP",
                           style: TextStyle(color: Colors.white))),
@@ -133,10 +158,10 @@ class _SignupState extends State<Signup> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text("Allready have an account?"),
+                    const Text("Already have an account?"),
                     TextButton(
                       onPressed: () {
-                        Navigator.pushNamed(context, '/login');
+                        context.go('/login');
                       },
                       child: const Text('LOGIN'),
                     )

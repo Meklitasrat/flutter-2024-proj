@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
+import 'package:grocery_shopping_list/providers/login_provider.dart';
+import 'package:grocery_shopping_list/services/login_service.dart';
 import '../sign_in/signup.dart';
+import '../shops/admin_shops_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+final usernameProvider = StateProvider<String>((ref) => '');
+final passwordProvider = StateProvider<String>((ref) => '');
 
-  @override
-  State<LoginScreen> createState() => _LoginScreenState();
-}
+class LoginScreen extends ConsumerWidget {
+  LoginScreen({super.key});
 
-class _LoginScreenState extends State<LoginScreen> {
   bool isVisible = false;
+
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final AuthService _authService = AuthService();
+
     return Scaffold(
       body: Center(
         child: SingleChildScrollView(
@@ -38,11 +47,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.deepPurple.withOpacity(0.2)),
                     child: TextFormField(
+                        controller: _usernameController,
                         decoration: const InputDecoration(
-                      icon: Icon(Icons.person),
-                      border: InputBorder.none,
-                      hintText: "Username",
-                    )),
+                          icon: Icon(Icons.person),
+                          border: InputBorder.none,
+                          hintText: "Username",
+                        )),
                   ),
 
                   Container(
@@ -53,6 +63,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(8),
                         color: Colors.deepPurple.withOpacity(0.2)),
                     child: TextFormField(
+                        controller: _passwordController,
                         obscureText: isVisible,
                         decoration: InputDecoration(
                             icon: const Icon(Icons.lock),
@@ -60,9 +71,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             hintText: "Password",
                             suffixIcon: IconButton(
                                 onPressed: () {
-                                  setState(() {
-                                    isVisible = !isVisible;
-                                  });
+                                  // setState(() {
+                                  //   isVisible = !isVisible;
+                                  // });
                                 },
                                 icon: Icon(isVisible
                                     ? Icons.visibility
@@ -78,8 +89,26 @@ class _LoginScreenState extends State<LoginScreen> {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/shop');
+                        // onPressed: () {
+                        // final username = _usernameController.text;
+                        // final password = _passwordController.text;
+                        // const role = 'user';
+                        // _loginService.login(username, password, role, context);
+                        //   // Navigator.pushNamed(context, '/shop');
+                        // },
+                        onPressed: () async {
+                          final authService = ref.read(authoProvider);
+                          try {
+                            final token = await authService.login(
+                                _usernameController.text,
+                                _passwordController.text,
+                                context);
+
+                            
+                          } catch (e) {
+                            // Handle login error
+                            print('Login failed: $e');
+                          }
                         },
                         child: const Text("LOGIN",
                             style: TextStyle(color: Colors.white))),
@@ -91,16 +120,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       const Text("Don't have an account?"),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/signup');
+                          context.go('/');
                         },
                         child: const Text('SIGN UP'),
                       )
                     ],
                   ),
-                  const Text(
-                    "username or password is incorrect",
-                    style: TextStyle(color: Colors.red),
-                  ),
+                  // const Text(
+                  //   "username or password is incorrect",
+                  //   style: TextStyle(color: Colors.red),
+                  // ),
                   // SizedBox(),
                 ],
               ),
