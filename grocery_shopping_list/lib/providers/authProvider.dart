@@ -19,6 +19,12 @@ class AuthState {
     // Add logic to handle signup success (e.g., navigate to home screen)
     // Navigator.push(BuildContext context LoginScreen());
   }
+
+  Future<void> logout(context) async {
+    await _apiService.logout(context);
+    // Add logic to handle signup success (e.g., navigate to home screen)
+    // Navigator.push(BuildContext context LoginScreen());
+  }
 }
 
 // class AdminState extends Provider<bool> {

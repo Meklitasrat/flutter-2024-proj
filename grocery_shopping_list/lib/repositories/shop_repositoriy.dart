@@ -6,10 +6,15 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../providers/login_provider.dart';
 
 const String baseUrl = 'http://localhost:6036/shop';
-const token = SharedPreferences;
 
 class ShopRepository {
+Future<String?> _getToken() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString('access_token');
+  }
+
   Future<List<Shop>> fetchAllShops() async {
+    final token = await _getToken();
     final response = await http.get(Uri.parse('$baseUrl/allshops'),
         headers: {'Authorization': 'Bearer $token'});
     if (response.statusCode == 200) {
@@ -21,9 +26,13 @@ class ShopRepository {
   }
 
   Future<String> addShop(String name, String items) async {
+    final token = await _getToken();
     final response = await http.post(
       Uri.parse('$baseUrl/create'),
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+      },
+      
       body: json.encode({'name': name, 'items': items}),
     );
     if (response.statusCode == 201) {
@@ -34,9 +43,12 @@ class ShopRepository {
   }
 
   Future<void> editShop(String id, String name, String items) async {
+    final token = await _getToken();
     final response = await http.put(
       Uri.parse('$baseUrl/$id'),
-      headers: {'Content-Type': 'application/json'},
+      headers: {'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+      },
       body: json.encode({'name': name, 'items': items}),
     );
     if (response.statusCode != 200) {
@@ -45,7 +57,12 @@ class ShopRepository {
   }
 
   Future<void> deleteShop(String id) async {
-    final response = await http.delete(Uri.parse('$baseUrl/$id'));
+    final token = await _getToken();
+    final response = await http.delete(Uri.parse('$baseUrl/$id'),
+    headers: { 'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token'
+    },
+    );
     if (response.statusCode != 204) {
       throw Exception('Failed to delete shop');
     }

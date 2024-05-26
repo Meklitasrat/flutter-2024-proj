@@ -43,6 +43,8 @@ dependencies:
   riverpod_annotation: ^2.3.5
   provider: ^6.1.2
   go_router: ^14.1.3
+  dart_jsonwebtoken: ^2.14.0
+  jwt_decoder: ^2.0.1
 
 dev_dependencies:
   flutter_test:

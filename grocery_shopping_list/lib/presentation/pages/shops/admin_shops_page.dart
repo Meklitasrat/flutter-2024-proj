@@ -1,21 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:grocery_shopping_list/providers/authProvider.dart';
 import 'package:grocery_shopping_list/repositories/shop_repositoriy.dart';
 import '../../../models/shops_model.dart';
 import '../../../providers/shops_providers.dart';
 import 'shops_dialog.dart';
+import 'package:go_router/go_router.dart';
 
 class AdminShopPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final api = ref.watch(apiServiceProvider);
     final shops = ref.watch(shopsProvider);
     final shopsNotifier = ref.watch(shopsProvider.notifier);
     final asyncShops = ref.watch(fetchShopsProvider);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Shemeta Shoppings'),
+        title: Text('Shemeta Shopping'),
         backgroundColor: Color.fromARGB(255, 124, 118, 207),
+        actions: [
+          TextButton(
+            onPressed: () {
+              api.logout(context);
+              context.go('/login');
+            },
+            child: const Text('Logout', 
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            
+          ),
+        ],
       ),
       body: asyncShops.when(
         data: (shops) {

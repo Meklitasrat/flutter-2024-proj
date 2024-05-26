@@ -9,6 +9,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'presentation/pages/shops/admin_shops_page.dart';
 // import './router/router.dart';
 import 'package:go_router/go_router.dart';
+import './presentation/pages/lists/user_shop_page2.dart';
 
 
 void main() {
@@ -34,6 +35,11 @@ final GoRouter _router = GoRouter(
       path: '/shops',
       builder: (context, state) => AdminShopPage(),
     ),
+    GoRoute(
+      path: '/userShops',
+      builder: (context, state) => UserShopPage(),
+    
+    )
     // GoRoute(
     //   path: '/',
     //   builder: (context, state) => Signup(),

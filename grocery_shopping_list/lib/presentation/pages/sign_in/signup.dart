@@ -57,7 +57,17 @@ class _SignupState extends ConsumerState<Signup> {
                         icon: Icon(Icons.person),
                         border: InputBorder.none,
                         hintText: "Username",
-                      )),
+                      ),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your username';
+                        } else if (value.length < 8) {
+                          return 'Username must be at least 8 characters long';
+                        }
+                        return null;
+                      }),
+                      
+                  
                 ),
                 Container(
                   margin: const EdgeInsets.all(10),
@@ -81,58 +91,68 @@ class _SignupState extends ConsumerState<Signup> {
                               },
                               icon: Icon(isVisible
                                   ? Icons.visibility
-                                  : Icons.visibility_off)))),
-                ),
-                Container(
-                  margin: const EdgeInsets.all(10),
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 10),
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      color: Colors.deepPurple.withOpacity(0.2)),
-                  child: TextFormField(
-                      obscureText: isVisible,
-                      decoration: InputDecoration(
-                          icon: Icon(Icons.lock),
-                          border: InputBorder.none,
-                          hintText: "Password",
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                setState(() {
-                                  isVisible = !isVisible;
-                                });
-                              },
-                              icon: Icon(isVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off)))),
-                ),
-                Container(
-                    margin: const EdgeInsets.all(10),
-                    // padding: const EdgeInsets.symmetric(
-                    //     horizontal: 15.0, vertical: 10),
-                    height: 25,
-                    // width: 100,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: ListTile(
-                              title: const Text('Do you want to be an Admin?'),
-                              leading: Switch(
-                                value: isAdmin,
-                                onChanged: (value) {
-                                  // AdminState.toggle
-                                  setState(() {
-                                    isAdmin = !isAdmin;
-                                  });
-                                },
-                                activeTrackColor: Colors.lightGreenAccent,
-                                activeColor: Colors.green,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                              )),
-                        ),
-                      ],
-                    )),
+                                  : Icons.visibility_off))),
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please enter your password';
+                        } else if (value.length < 8) {
+                          return 'Password must be at least 8 characters long';
+                        }
+                        return null;
+                      }),
+            ),
+                            
+                
+                // Container(
+                //   margin: const EdgeInsets.all(10),
+                //   padding: const EdgeInsets.symmetric(
+                //       horizontal: 10.0, vertical: 10),
+                //   decoration: BoxDecoration(
+                //       borderRadius: BorderRadius.circular(8),
+                //       color: Colors.deepPurple.withOpacity(0.2)),
+                //   child: TextFormField(
+                //       obscureText: isVisible,
+                //       decoration: InputDecoration(
+                //           icon: Icon(Icons.lock),
+                //           border: InputBorder.none,
+                //           hintText: "Password",
+                //           suffixIcon: IconButton(
+                //               onPressed: () {
+                //                 setState(() {
+                //                   isVisible = !isVisible;
+                //                 });
+                //               },
+                //               icon: Icon(isVisible
+                //                   ? Icons.visibility
+                //                   : Icons.visibility_off)))),
+                // ),
+                // Container(
+                //     margin: const EdgeInsets.all(10),
+                //     // padding: const EdgeInsets.symmetric(
+                //     //     horizontal: 15.0, vertical: 10),
+                //     height: 25,
+                //     // width: 100,
+                //     child: Row(
+                //       children: [
+                //         Expanded(
+                //           child: ListTile(
+                //               title: const Text('Do you want to be an Admin?'),
+                //               leading: Switch(
+                //                 value: isAdmin,
+                //                 onChanged: (value) {
+                //                   // AdminState.toggle
+                //                   setState(() {
+                //                     isAdmin = !isAdmin;
+                //                   });
+                //                 },
+                //                 activeTrackColor: Colors.lightGreenAccent,
+                //                 activeColor: Colors.green,
+                //                 materialTapTargetSize:
+                //                     MaterialTapTargetSize.shrinkWrap,
+                //               )),
+                //         ),
+                //       ],
+                //     )),
                 Container(height: 30),
                 const SizedBox(height: 10),
                 Container(
@@ -144,13 +164,33 @@ class _SignupState extends ConsumerState<Signup> {
                   ),
                   child: TextButton(
                       onPressed: () {
-                        // Navigator.pushNamed(context, '/login');
-                        final username = _usernameController.text;
-                        final password = _passwordController.text;
-                        const role = 'user';
-                        _apiService.signUp(username, password, role, context);
+                      //   // Navigator.pushNamed(context, '/login');
+                      //   final username = _usernameController.text;
+                      //   final password = _passwordController.text;
+                      //   const role = 'user';
+                      //   final response = _apiService.signUp(
+                      //       username, password, role, context);
 
-                        // context.go('/login');
+                        
+                      //     context.go('/login');
+                        
+                      //   // context.go('/login');
+                      // },
+
+                      if (formKey.currentState?.validate() ?? false) {
+                          // Form is valid, proceed with signup
+                          final username = _usernameController.text;
+                          final password = _passwordController.text;
+                          const role = 'user';
+                          try {
+                            final response = _apiService.signUp(
+                                username, password, role, context);
+                            context.go('/login');
+                          } catch (e) {
+                            // Handle signup error
+                            print('Sign-up failed: $e');
+                          }
+                        }
                       },
                       child: const Text("SIGNUP",
                           style: TextStyle(color: Colors.white))),
