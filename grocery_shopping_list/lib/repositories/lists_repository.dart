@@ -1,10 +1,7 @@
-//
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/lists_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../providers/login_provider.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 
 const String baseUrl = 'http://localhost:6036/user';
 
@@ -21,23 +18,14 @@ class ListRepository {
     return id;
   }
 
-  // String _decodeIDFromToken(String token) {
-  //   try {
-  //     Map<String, dynamic> decodedToken = JwtDecoder.decode(token);
-  //     return decodedToken['sub']; // Adjust based on your token's structure
-  //   } catch (e) {
-  //     throw Exception('Failed to decode token');
-  //   }
-  // }
-
   Future<List<GroceryList>> fetchAllLists() async {
     final token = await _getToken();
     final userid = await _getID();
-    print(token);
+    // print(token);
     final response = await http.get(Uri.parse('$baseUrl/lists/$userid'),
         headers: {'Authorization': 'Bearer $token'});
 
-    print(response.body);
+    // print(response.body);
     if (response.statusCode == 200) {
       final List<dynamic> data = json.decode(response.body);
       return data.map((list) => GroceryList.fromJson(list)).toList();

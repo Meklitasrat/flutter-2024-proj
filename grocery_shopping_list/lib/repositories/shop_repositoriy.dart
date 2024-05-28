@@ -1,9 +1,7 @@
-//
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/shops_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../providers/login_provider.dart';
 
 const String baseUrl = 'http://localhost:6036/shop';
 

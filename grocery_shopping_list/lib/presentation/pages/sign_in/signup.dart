@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import '../login/login.dart';
-import '../../../main.dart';
-import '../../../providers/authProvider.dart';
 import '../../../services/signup_service.dart';
 
 class Signup extends ConsumerStatefulWidget {
@@ -35,7 +32,7 @@ class _SignupState extends ConsumerState<Signup> {
         child: Form(
           key: formKey,
           child: Padding(
-            padding: EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(8.0),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -53,7 +50,7 @@ class _SignupState extends ConsumerState<Signup> {
                       color: Colors.deepPurple.withOpacity(0.2)),
                   child: TextFormField(
                       controller: _usernameController,
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         icon: Icon(Icons.person),
                         border: InputBorder.none,
                         hintText: "Username",

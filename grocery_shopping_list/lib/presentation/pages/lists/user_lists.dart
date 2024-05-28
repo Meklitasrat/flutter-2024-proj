@@ -8,11 +8,13 @@ import '../../../models/shops_model.dart';
 import '../../../providers/shops_providers.dart';
 import './list_dialogbox.dart';
 import 'package:go_router/go_router.dart';
+import '../../../providers/login_provider.dart';
 
 class UserListPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final api = ref.watch(apiServiceProvider);
+    final auth = ref.watch(authoProvider);
+    
     // final shops = ref.watch(shopsProvider);
     final shopsNotifier = ref.watch(listsProvider.notifier);
     final asyncShops = ref.watch(fetchListsProvider);
@@ -29,7 +31,7 @@ class UserListPage extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () {
-              api.logout(context);
+              auth.logout();
               context.go('/login');
             },
             child: const Text(
@@ -107,20 +109,20 @@ class UserListPage extends ConsumerWidget {
         error: (error, stackTrace) =>
             Center(child: Text('Failed to load shops')),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: 0,
-        onTap: _onItemTapped,
-        items: [
-          BottomNavigationBarItem(
-            label: 'Shopping Lists',
-            icon: (Icon(Icons.trolley)),
-          ),
-          BottomNavigationBarItem(
-            label: 'Shops',
-            icon: (Icon(Icons.shopify)),
-          )
-        ],
-      ),
+      // bottomNavigationBar: BottomNavigationBar(
+      //   currentIndex: 0,
+      //   onTap: _onItemTapped,
+      //   items: [
+      //     BottomNavigationBarItem(
+      //       label: 'Shopping Lists',
+      //       icon: (Icon(Icons.trolley)),
+      //     ),
+      //     BottomNavigationBarItem(
+      //       label: 'Shops',
+      //       icon: (Icon(Icons.shopify)),
+      //     )
+      //   ],
+      // ),
     );
   }
 }

@@ -6,11 +6,12 @@ import '../../../models/shops_model.dart';
 import '../../../providers/shops_providers.dart';
 import 'package:go_router/go_router.dart';
 import '../../../main.dart';
+import '../../../providers/login_provider.dart';
 
 class UserShopPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final api = ref.watch(apiServiceProvider);
+    final auth = ref.watch(authoProvider);
     final shops = ref.watch(shopsProvider);
     final shopsNotifier = ref.watch(shopsProvider.notifier);
     final asyncShops = ref.watch(fetchShopsProvider);
@@ -22,7 +23,7 @@ class UserShopPage extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () {
-              api.logout(context);
+              auth.logout();
               context.go('/login');
             },
             child: const Text(
@@ -45,31 +46,6 @@ class UserShopPage extends ConsumerWidget {
                 child: ListTile(
                   title: Text(shop.name),
                   subtitle: Text(shop.items),
-                  // trailing: Row(
-                  //   mainAxisSize: MainAxisSize.min,
-                  //   children: [
-                  //     IconButton(
-                  //       icon: Icon(Icons.edit),
-                  //       onPressed: () {
-                  //         showDialog(
-                  //           context: context,
-                  //           builder: (context) => EditShopDialog(
-                  //             shop: shop,
-                  //             onEdit: (name, items) {
-                  //               shopsNotifier.editShop(shop.id, name, items);
-                  //             },
-                  //           ),
-                  //         );
-                  //       },
-                  //     ),
-                  //     IconButton(
-                  //       icon: Icon(Icons.delete),
-                  //       onPressed: () {
-                  //         shopsNotifier.deleteShop(shop.id);
-                  //       },
-                  //     ),
-                  //   ],
-                  // ),
                 ),
               );
             },
@@ -79,31 +55,6 @@ class UserShopPage extends ConsumerWidget {
         error: (error, stackTrace) =>
             Center(child: Text('Failed to load shops')),
       ),
-      // bottomNavigationBar: BottomAppBar(
-      //   child: Center(
-      //     child: TextButton(
-      //       onPressed: () {
-      //         showDialog(
-      //           context: context,
-      //           builder: (context) => EditShopDialog(
-      //             onEdit: (name, items) {
-      //               shopsNotifier.addShop(name, items);
-      //             },
-      //           ),
-      //         );
-      //       },
-      //       child: Text(
-      //         'Add a shop',
-      //         style: TextStyle(color: Colors.white),
-      //       ),
-      //       style: ButtonStyle(
-      //         backgroundColor: MaterialStateProperty.all(
-      //           Color.fromARGB(255, 110, 112, 240),
-      //         ),
-      //       ),
-      //     ),
-      //   ),
-      // ),
     );
   }
 }

@@ -6,11 +6,12 @@ import '../../../models/shops_model.dart';
 import '../../../providers/shops_providers.dart';
 import 'shops_dialog.dart';
 import 'package:go_router/go_router.dart';
+import '../../../providers/login_provider.dart';
 
 class AdminShopPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final api = ref.watch(apiServiceProvider);
+    final auth = ref.watch(authoProvider);
     final shops = ref.watch(shopsProvider);
     final shopsNotifier = ref.watch(shopsProvider.notifier);
     final asyncShops = ref.watch(fetchShopsProvider);
@@ -22,7 +23,7 @@ class AdminShopPage extends ConsumerWidget {
         actions: [
           TextButton(
             onPressed: () {
-              api.logout(context);
+              auth.logout();
               context.go('/login');
             },
             child: const Text('Logout', 

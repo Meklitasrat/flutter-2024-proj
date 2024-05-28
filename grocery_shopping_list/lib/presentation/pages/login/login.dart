@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grocery_shopping_list/providers/login_provider.dart';
-import 'package:grocery_shopping_list/services/login_service.dart';
-import '../sign_in/signup.dart';
-import '../shops/admin_shops_page.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 final usernameProvider = StateProvider<String>((ref) => '');
 final passwordProvider = StateProvider<String>((ref) => '');
@@ -89,13 +85,6 @@ class LoginScreen extends ConsumerWidget {
                       borderRadius: BorderRadius.circular(6),
                     ),
                     child: TextButton(
-                        // onPressed: () {
-                        // final username = _usernameController.text;
-                        // final password = _passwordController.text;
-                        // const role = 'user';
-                        // _loginService.login(username, password, role, context);
-                        //   // Navigator.pushNamed(context, '/shop');
-                        // },
                         onPressed: () async {
                           final authService = ref.read(authoProvider);
                           try {
@@ -126,11 +115,6 @@ class LoginScreen extends ConsumerWidget {
                       )
                     ],
                   ),
-                  // const Text(
-                  //   "username or password is incorrect",
-                  //   style: TextStyle(color: Colors.red),
-                  // ),
-                  // SizedBox(),
                 ],
               ),
             ),
