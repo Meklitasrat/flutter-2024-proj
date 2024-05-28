@@ -39,7 +39,7 @@ class _SignupState extends ConsumerState<Signup> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Image.asset('../assets/picture.png', width: 210),
+                Image.asset("/assets/pic.svg"),
                 const ListTile(
                     title: Text("Create new account",
                         style: TextStyle(
@@ -61,8 +61,8 @@ class _SignupState extends ConsumerState<Signup> {
                       validator: (value) {
                         if (value == null || value.isEmpty) {
                           return 'Please enter your username';
-                        } else if (value.length < 8) {
-                          return 'Username must be at least 8 characters long';
+                        } else if (value.length < 5) {
+                          return 'Username must be at least 5 characters long';
                         }
                         return null;
                       }),

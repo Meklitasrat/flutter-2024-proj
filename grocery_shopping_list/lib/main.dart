@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 // import 'package:grocery_shopping_list/admin/user_dialog.dart';
 import 'package:grocery_shopping_list/presentation/pages/login/login.dart';
 import 'package:grocery_shopping_list/presentation/pages/sign_in/signup.dart';
-import 'presentation/pages/lists/user_shop_page.dart';
-import 'presentation/pages/lists/selectedItems.dart';
+import 'presentation/pages/lists/user_shop_page2.dart';
+// import 'presentation/pages/lists/selectedItems.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 // import 'admin/admin_page.dart';
 import 'presentation/pages/shops/admin_shops_page.dart';
 // import './router/router.dart';
 import 'package:go_router/go_router.dart';
-import './presentation/pages/lists/user_shop_page2.dart';
+import './presentation/pages/lists/user_lists.dart';
 
 
 void main() {
@@ -37,13 +37,13 @@ final GoRouter _router = GoRouter(
     ),
     GoRoute(
       path: '/userShops',
-      builder: (context, state) => UserShopPage(),
+      builder: (context, state) => UserListPage(),
     
-    )
-    // GoRoute(
-    //   path: '/',
-    //   builder: (context, state) => Signup(),
-    // ),
+    ),
+    GoRoute(
+      path: '/userLists',
+      builder: (context, state) => UserShopPage(),
+    ),
   ],
 );
 
