@@ -20,7 +20,7 @@ final GoRouter _router = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (context, state) => AdminShopPage(),
+      builder: (context, state) => UserShopPage(),
     ),
     GoRoute(
       path: '/login',

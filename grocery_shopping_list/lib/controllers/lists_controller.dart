@@ -37,8 +37,9 @@ class ListsNotifier extends StateNotifier<List<GroceryList>> {
     try {
       await _ListRepository.editList(id, date, content);
       state = state
-          .map((list) =>
-              list.id == id ? GroceryList(id: id, date: date, content: content) : list)
+          .map((list) => list.id == id
+              ? GroceryList(id: id, date: date, content: content)
+              : list)
           .toList();
     } catch (e) {
       // Handle error
